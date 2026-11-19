@@ -1,0 +1,53 @@
+# ==========================================================================
+#  Properspace static site — Apache config
+#  Place this file in the WEB ROOT (same folder as index.html).
+# ==========================================================================
+
+# --- 1. MIME types (CRITICAL) --------------------------------------------
+# Browsers refuse to run ES modules (.mjs) served with the wrong type, and the
+# whole site stays blank. These lines fix that + serve webp/mp4/fonts correctly.
+AddType text/javascript            .mjs
+AddType text/javascript            .js
+AddType image/webp                 .webp
+AddType video/mp4                  .mp4
+AddType font/woff2                 .woff2
+AddType application/json           .json
+
+# --- 2. Default document --------------------------------------------------
+DirectoryIndex index.html
+
+# --- 3. Routing (SPA fallback) -------------------------------------------
+# Real files (/js/x.mjs, /images/y.webp) and pre-rendered page folders
+# (/pricing/, /solutions/property-manager/) are served directly. Anything else
+# falls back to the home page so client-side navigation never 404s.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.html [L]
+</IfModule>
+
+# --- 4. Compression (big transfer win, zero visual change) ---------------
+# Shrinks HTML/CSS/JS ~80-90% on the wire. Images/videos are already
+# compressed so they're left alone.
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# --- 5. Browser caching (faster repeat visits) ---------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    # Hashed assets never change — cache them hard
+    ExpiresByType text/javascript        "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/css               "access plus 1 year"
+    ExpiresByType font/woff2             "access plus 1 year"
+    ExpiresByType image/webp             "access plus 6 months"
+    ExpiresByType image/png              "access plus 6 months"
+    ExpiresByType image/jpeg             "access plus 6 months"
+    ExpiresByType video/mp4              "access plus 6 months"
+    # HTML can change on redeploy — revalidate
+    ExpiresByType text/html              "access plus 0 seconds"
+</IfModule>

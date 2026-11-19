@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+
+# Zipped build output (too big for GitHub's 100 MB limit; rebuild from public/)
+*.zip
+
+# Node
+node_modules/

@@ -1,0 +1,2 @@
+function e(t,a){return{description:"Entdecken Sie die Zukunft der Immobilienverwaltung mit Properspace. \u2728 Unsere umfassende SaaS-Plattform erm\xF6glicht es Ihnen, alle Aspekte Ihrer Immobilien effizient zu steuern \u2013 von administrativen Aufgaben bis hin zur Optimierung Ihrer Energieeffizienz.",favicon:"/images/2nUlBrn0JW8Ljmo3TakdgotLoU.jpg",robots:"max-image-preview:large",socialImage:"/images/DLVZu4KeV74Dy33sWCV8xfrRuBE.jpg",title:"Properspace"}}export{e as a};
+//# sourceMappingURL=chunk-6ZKZGGAM.mjs.map
